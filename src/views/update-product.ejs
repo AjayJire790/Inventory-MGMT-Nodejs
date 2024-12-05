@@ -1,0 +1,38 @@
+<h1 class="text-center header">Update Product</h1>
+
+<%if(errorMessage){%>
+<div class="alert alert-danger" role="alert">
+    <%=errorMessage%>
+  </div>
+<%}%>
+
+        <form action="/update-product" method="post" class="mt-4 p-4 shadow-sm rounded bg-light">
+            <!-- Product Name -->
+            <input type="hidden" class="form-control" id="id" name="id" value="<%= product.id%>">
+
+            <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="productName" name="name" placeholder="Enter product name" value="<%= product.name %>">
+            </div>
+
+            <!-- Product Description -->
+            <div class="mb-3">
+                <label for="productDescription" class="form-label">Product Description</label>
+                <textarea class="form-control" id="productDescription" rows="4" name="desc" placeholder="Enter product description"><%= product.desc%></textarea>
+            </div>
+
+            <!-- Price -->
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Enter product price" value="<%=product.price%>">
+            </div>
+
+            <!-- Image URL -->
+            <div class="mb-3">
+                <label for="imageUrl" class="form-label">Image URL</label>
+                <input type="text" class="form-control" id="imageUrl" name="imageUrl" placeholder="Enter image URL" value="<%= product.imageUrl%>">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Update Product</button>
+        </form>
