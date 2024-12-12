@@ -7,20 +7,25 @@ export default class ProductController {
     let products = ProductModel.getAll();
     console.log(products);
     //View
-    res.render("index", { products: products });
+    res.render("index", { products, userEmail: req.session.userEmail });
     // return res.sendFile(
     //   path.join(path.resolve(), "src", "views", "products.html")
     // );
   }
 
-  getAddForm(req, res, next) {
-    return res.render("add-product", { errorMessage: null });
+  getAddProduct(req, res, next) {
+    return res.render("add-product", {
+      errorMessage: null,
+      userEmail: req.session.userEmail,
+    });
   }
 
   postAddProduct(req, res, next) {
-    ProductModel.add(req.body);
+    const { name, desc, image } = req.body;
+    const imageUrl = "images/" + req.file.filename;
+    ProductModel.add(image, desc, name, imageUrl);
     var products = ProductModel.getAll();
-    res.render("index", { products });
+    res.render("index", { products, userEmail: req.session.userEmail });
     // res.send();
   }
 
@@ -31,6 +36,7 @@ export default class ProductController {
       res.render("update-product", {
         product: productFound,
         errorMessage: null,
+        userEmail: req.session.userEmail,
       });
     } else {
       res.status(401).send("Product not found");
