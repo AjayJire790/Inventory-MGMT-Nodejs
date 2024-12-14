@@ -6,6 +6,8 @@ import expressEjsLayouts from "express-ejs-layouts";
 import validateRequest from "./src/middlewares/validation.middleware.js";
 import { uploadFile } from "./src/middlewares/file-upload.middleware.js";
 import { auth } from "./src/middlewares/auth.middleware.js";
+import cookieParser from "cookie-parser";
+import { setLastVisit } from "./src/middlewares/lastVisit.middleware.js";
 import UserController from "./src/controllers/user.controller.js";
 import validationRegister from "./src/middlewares/validationRegister.middleware.js";
 import session from "express-session";
@@ -22,6 +24,7 @@ server.set("views", path.join(path.resolve(), "src", "views"));
 server.use(expressEjsLayouts);
 
 server.use(express.static("public"));
+server.use(cookieParser());
 
 server.use(
   session({
@@ -42,7 +45,7 @@ server.post("/login", userController.postLogin);
 server.post("/register", validationRegister, userController.postRegister);
 server.post("/logout", userController.logout);
 
-server.get("/", auth, productController.getProducts);
+server.get("/", setLastVisit, auth, productController.getProducts);
 server.get("/add-product", auth, productController.getAddProduct);
 server.get("/update-product:id", auth, productController.getUpdateProductView);
 server.post("/delete-product:id", auth, productController.deleteProduct);
